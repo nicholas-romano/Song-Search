@@ -1,0 +1,25 @@
+[
+  {
+    "artist": {
+      "avatar": "https://is5-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800cc.jpg",
+      "adamid": "99951",
+      "name": "Billie Myers",
+      "weburl": "https://www.shazam.com/artist/33128/billie-myers"
+    }
+  },
+  {
+    "artist": {
+      "avatar": "https://is4-ssl.mzstatic.com/image/thumb/Features115/v4/3f/84/4e/3f844e97-8c23-b64d-87f1-d536e99f80e9/mzl.rsxdpqqq.jpg/800x800cc.jpg",
+      "adamid": "73406786",
+      "name": "Yiruma",
+      "weburl": "https://www.shazam.com/artist/40008598/yiruma"
+    }
+  },
+  {
+    "artist": {
+      "adamid": "881889878",
+      "name": "Kiss The Rain",
+      "weburl": "https://www.shazam.com/artist/45877566/kiss-the-rain"
+    }
+  }
+]
