@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import artists from "./stored-data/artists.json";
 import songs from "./stored-data/songs.json";
 import Container from "react-bootstrap/Container";
@@ -12,10 +12,6 @@ export default function App() {
   const [artistSearchResults, setArtistSearchResults] = useState([]);
   const [songSearchResults, setSongSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // useEffect(() => {
-  //   SampleData();
-  // });
 
   const saveSessionData = (category, data) => {
     sessionStorage.setItem(category, JSON.stringify(data));
