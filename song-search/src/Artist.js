@@ -6,7 +6,7 @@ export default function Artist({ artist }) {
   const { adamid, name, avatar, weburl } = artist.artist;
 
   return (
-    <Col md={3} sm={6} style={{ padding: "10px" }}>
+    <Col xl={3} lg={4} md={6} style={{ padding: "10px" }}>
       <Card key={adamid} style={{ width: "18rem" }}>
         {
           <Card.Img

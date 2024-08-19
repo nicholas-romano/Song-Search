@@ -19,9 +19,16 @@ export default function Search({
           You can search by Artist name, song title, or album name.
         </Form.Text>
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Search
-      </Button>
+      <div className="d-grid gap-2">
+        <Button
+          size="lg"
+          className="action-button"
+          variant="primary"
+          type="submit"
+        >
+          Search
+        </Button>
+      </div>
     </Form>
   );
 }

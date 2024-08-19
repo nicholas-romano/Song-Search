@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Search from "./Search";
 import ArtistList from "./ArtistList";
 import SongList from "./SongList";
+import "./App.css";
 
 export default function App() {
   const [artistSearchResults, setArtistSearchResults] = useState([]);
@@ -137,28 +138,42 @@ export default function App() {
   };
 
   return (
-    <Container>
-      <h1>Song Search</h1>
-      <Search
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        handleSearchQuery={handleSearchQuery}
-      />
-      {artistSearchResults.length > 0 ? (
-        <Row>
-          <ArtistList artists={artistSearchResults} />
-        </Row>
-      ) : (
-        ""
-      )}
+    <div className="wrapper">
+      <Container className="container">
+        <header>
+          <h1 className="title">Song Search</h1>
+          <p>
+            Powered by{" "}
+            <img
+              src={`${process.env.PUBLIC_URL}/images/shazam-music-logo-icon.png`}
+              alt="Shazam Music"
+            />
+          </p>
+        </header>
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          handleSearchQuery={handleSearchQuery}
+        />
+        {artistSearchResults.length > 0 ? (
+          <Row>
+            <ArtistList artists={artistSearchResults} />
+          </Row>
+        ) : (
+          ""
+        )}
 
-      {songSearchResults.length > 0 ? (
-        <Row>
-          <SongList songs={songSearchResults} />
-        </Row>
-      ) : (
-        ""
-      )}
-    </Container>
+        {songSearchResults.length > 0 ? (
+          <Row>
+            <SongList songs={songSearchResults} />
+          </Row>
+        ) : (
+          ""
+        )}
+      </Container>
+      <div className="footer">
+        <p>Developed by Nicholas Romano 2024</p>
+      </div>
+    </div>
   );
 }
