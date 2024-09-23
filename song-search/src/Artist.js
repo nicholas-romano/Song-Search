@@ -18,7 +18,7 @@ export default function Artist({ artist }) {
         {/* <Card.Img variant="top" src={avatar} alt={`${name} artist poster`} /> */}
         <Card.Body>
           <Card.Title>{name}</Card.Title>
-          <Button href={weburl} variant="primary">
+          <Button href={weburl} variant="primary" target="_blank">
             Listen Now
           </Button>
         </Card.Body>

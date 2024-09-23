@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import artists from "./stored-data/artists.json";
 import songs from "./stored-data/songs.json";
 import Container from "react-bootstrap/Container";
@@ -13,15 +13,15 @@ export default function App() {
   const [songSearchResults, setSongSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const saveSessionData = (category, data) => {
-    sessionStorage.setItem(category, JSON.stringify(data));
-  };
+  function savelocalStorageData(category, data) {
+    localStorage.setItem(category, JSON.stringify(data));
+  }
 
-  const getSessionData = (name) => {
-    return sessionStorage.getItem(name);
-  };
+  function getlocalStorageData(name) {
+    return localStorage.getItem(name);
+  }
 
-  const FetchApiData = (url) => {
+  function FetchApiData(url) {
     /* API End points */
     const options = {
       method: "GET",
@@ -39,18 +39,18 @@ export default function App() {
           if (data) {
             const artistsCollection = data.artists.hits;
             const songsCollection = data.tracks.hits;
-            saveSessionData("artists", artistsCollection);
-            saveSessionData("songs", songsCollection);
-            saveSessionData("searchQuery", searchQuery);
+            savelocalStorageData("artists", artistsCollection);
+            savelocalStorageData("songs", songsCollection);
+            savelocalStorageData("searchQuery", searchQuery);
             setArtistSearchResults(artistsCollection);
             setSongSearchResults(songsCollection);
           }
         })
         .catch((err) => {
           console.error(err);
-          const sessionStorageData = checkForSessionStorageData();
-          if (sessionStorageData) {
-            SessionStorageData();
+          const localStorageData = checkForlocalStorageData();
+          if (localStorageData) {
+            localStorageData();
           } else {
             SampleData();
           }
@@ -58,40 +58,40 @@ export default function App() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  const checkForSessionStorageData = () => {
-    let searchQuery = getSessionData("searchQuery");
-    let artistsData = getSessionData("artists");
-    let songsData = getSessionData("songs");
+  const checkForlocalStorageData = useCallback(() => {
+    let searchQuery = getlocalStorageData("searchQuery");
+    let artistsData = getlocalStorageData("artists");
+    let songsData = getlocalStorageData("songs");
 
     if (!searchQuery && !artistsData && !songsData) {
       return false;
     } else {
       return true;
     }
-  };
+  }, []);
 
-  const SampleData = () => {
-    saveSessionData("searchQuery", "kiss the rain");
+  const SampleData = useCallback(() => {
+    savelocalStorageData("searchQuery", "kiss the rain");
     setSearchQuery("kiss the rain");
 
-    saveSessionData("artists", artists);
+    savelocalStorageData("artists", artists);
     setArtistSearchResults(artists);
 
-    saveSessionData("songs", songs);
+    savelocalStorageData("songs", songs);
     setSongSearchResults(songs);
-  };
+  }, []);
 
-  const setUrlSearchString = (searchTerm) => {
+  function setUrlSearchString(searchTerm) {
     let urlSearchTerm = searchTerm.replaceAll(" ", "%20");
     urlSearchTerm = urlSearchTerm.replaceAll('"', "");
     return `https://shazam.p.rapidapi.com/search?term=${urlSearchTerm}&locale=en-US&offset=0&limit=10`;
-  };
+  }
 
-  const SessionStorageData = () => {
-    let artistsData = getSessionData("artists");
-    let songsData = getSessionData("songs");
+  const localStorageData = useCallback(() => {
+    let artistsData = getlocalStorageData("artists");
+    let songsData = getlocalStorageData("songs");
 
     if (artistsData !== JSON.stringify(artistSearchResults)) {
       setArtistSearchResults(JSON.parse(artistsData));
@@ -100,9 +100,9 @@ export default function App() {
     if (songsData !== JSON.stringify(songSearchResults)) {
       setSongSearchResults(JSON.parse(songsData));
     }
-  };
+  }, [artistSearchResults, songSearchResults]);
 
-  const handleSearchQuery = (e) => {
+  function handleSearchQuery(e) {
     e.preventDefault();
 
     console.log("searchQuery state ", searchQuery);
@@ -115,7 +115,7 @@ export default function App() {
 
     console.log("searchTerm: ", searchTerm);
 
-    const searchQuerySessionData = getSessionData("searchQuery");
+    const searchQuerySessionData = getlocalStorageData("searchQuery");
 
     console.log("searchQuerySessionData ", searchQuerySessionData);
 
@@ -123,7 +123,7 @@ export default function App() {
     if (searchTerm === searchQuerySessionData) {
       //If they are equal, use session storage data:
       console.log("use session storage data");
-      SessionStorageData();
+      localStorageData();
     } else {
       //If they are not equal, set session storage data to new string:
       console.log("fetch API data");
@@ -131,7 +131,15 @@ export default function App() {
       console.log("search url: ", url);
       FetchApiData(url);
     }
-  };
+  }
+
+  useEffect(() => {
+    if (checkForlocalStorageData()) {
+      localStorageData();
+    } else {
+      SampleData();
+    }
+  }, [checkForlocalStorageData, SampleData, localStorageData]);
 
   return (
     <div className="wrapper">
